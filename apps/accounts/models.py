@@ -1,3 +1,6 @@
-from django.db import models
+"""
+This model contains database design for all users and song artists
+"""
 
-# Create your models here.
+
+from django.db import models
