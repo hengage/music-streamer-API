@@ -71,6 +71,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'music_streamer.wsgi.application'
 
+### User model
+
+AUTH_USER_MODEL = 'apps.accounts.User'
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
