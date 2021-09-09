@@ -62,8 +62,3 @@ class Profile(models.Model):
     image               = models.FileField( upload_to="artist/")
 
 
-class PlayList(models.Model):
-    title               = models.CharField(max_length=300)
-    song                = models.FileField( upload_to="songs/")
-    user                = models.ForeignKey("User", related_name="userplaylist", on_delete=models.CASCADE)
-    date_created        = models.DateField(auto_now=True)
