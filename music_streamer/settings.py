@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     # Third party apps
     'rest_framework',
     'storages',
-    'audiofield',
 ]
 
 MIDDLEWARE = [
@@ -136,7 +135,7 @@ WSGI_APPLICATION = 'music_streamer.wsgi.application'
 
 ### User model
 
-AUTH_USER_MODEL = 'apps.accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, 'mysite/static'),

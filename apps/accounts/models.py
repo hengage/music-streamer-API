@@ -54,7 +54,7 @@ class User(AbstractBaseUser):
 
 
 class Profile(models.Model):
-    email               = models.ForeignKey("User", on_delete=models.CASCADE, related_name="userprofile")
+    email               = models.ForeignKey(User, on_delete=models.CASCADE, related_name="userprofile")
     country             = models.CharField(max_length=500, blank = True, null = True)
     gender              = models.CharField(max_length = 20, blank = True, null = True)
     artist_name         = models.CharField(max_length=255, blank = True, null = True)
