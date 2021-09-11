@@ -50,6 +50,11 @@ class Song(models.Model):
     related_name='song_artist'
     )
     audio_file = models.FileField()
+    album = models.ForeignKey(
+        Album,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True)
     genre = models.CharField(max_length=255)
     year = models.IntegerField(
         default=current_year(),
