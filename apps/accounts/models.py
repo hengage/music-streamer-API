@@ -10,16 +10,15 @@ from .manager import *
 
 ###################### user model
 class User(AbstractBaseUser):
-    fullname        = models.CharField(max_length = 390, blank = True, null = True)
-    email           = models.CharField(max_length = 300, unique=True)
-    
-    active          = models.BooleanField(default=True)
-    staff           = models.BooleanField(default=False)
-    admin           = models.BooleanField(default=False)
+    artist_name = models.CharField(max_length=255, default='artist_name')
+    email = models.CharField(max_length = 300, unique=True)
+    active = models.BooleanField(default=True)
+    staff = models.BooleanField(default=False)
+    admin = models.BooleanField(default=False)
 
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['artist_name']
 
     objects = UserManager()
 
@@ -54,11 +53,15 @@ class User(AbstractBaseUser):
 
 
 class Profile(models.Model):
-    email               = models.ForeignKey(User, on_delete=models.CASCADE, related_name="userprofile")
-    country             = models.CharField(max_length=500, blank = True, null = True)
-    gender              = models.CharField(max_length = 20, blank = True, null = True)
-    artist_name         = models.CharField(max_length=255, blank = True, null = True)
-    record_label        = models.CharField(max_length=255, blank = True, null = True)
-    image               = models.FileField( upload_to="artist/")
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE,
+         related_name="userprofile", default=1
+         )
+    first_name = models.CharField(max_length=255, blank = True, null = True)
+    last_name = models.CharField(max_length=255, blank = True, null = True)
+    country = models.CharField(max_length=500, blank = True, null = True)
+    gender = models.CharField(max_length = 20, blank = True, null = True)
+    record_label = models.CharField(max_length=255, blank = True, null = True)
+    image  = models.FileField( upload_to="artist/")
 
 
