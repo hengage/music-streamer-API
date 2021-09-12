@@ -6,6 +6,7 @@ from django.db import models
 from django.conf import settings
 import datetime, os
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils import timezone
 
 
 
@@ -60,6 +61,7 @@ class Song(models.Model):
         default=current_year(),
         validators=[MinValueValidator(1984), max_value_current_year]
     )
+    uploaded_at = models.DateTimeField(default=timezone.now)
     duration = models.DecimalField(
         max_digits=4, 
         decimal_places=2,
