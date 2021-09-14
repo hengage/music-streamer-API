@@ -34,7 +34,5 @@ class UserManager(BaseUserManager):
             password=password,
             is_staff=True,
             is_admin=True,
-
-
         )
         return user

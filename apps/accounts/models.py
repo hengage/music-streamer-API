@@ -26,7 +26,6 @@ class User(AbstractBaseUser):
 
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['artist_name']
 
     objects = UserManager()
 
