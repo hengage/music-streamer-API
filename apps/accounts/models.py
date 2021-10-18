@@ -6,28 +6,38 @@ This model contains database design for all users and song artists
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.db.models.signals import pre_save, post_save
+from django.contrib.auth.models import PermissionsMixin
 
 
 from .manager import UserManager
 from music_streamer.utils import unique_slug_generator
 
 ###################### user model
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     artist_name = models.CharField(
         max_length=255, 
         default='artist name', 
         unique=True
         )
     slug = models.SlugField(max_length=250, null=True, blank=True)
-    email = models.CharField(max_length=300, unique=True)
+    email = models.EmailField(max_length=300, unique=True)
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now_add=True)
+    last_login = models.DateTimeField(auto_now_add=True)
+
+    # username = None
 
 
     USERNAME_FIELD = 'email'
 
     objects = UserManager()
+
+    class Meta:
+        # ordering = ('email',)
+        verbose_name = ('user')
+        verbose_name_plural = ('users')
 
     def __str__(self):
         return str(self.email)
@@ -56,6 +66,8 @@ class User(AbstractBaseUser):
     @property
     def is_active(self):
         return self.active
+
+
 
 
 def rl_pre_save_receiver(sender, instance, *args, **kwargs):
