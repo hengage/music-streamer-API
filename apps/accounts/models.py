@@ -40,7 +40,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = ('users')
 
     def __str__(self):
-        return str(self.email)
+        return f"{self.artist_name} - "\
+                f"{self.email}"
 
     def get_artist_name(self):
         return self.artist_name
@@ -92,6 +93,13 @@ class Profile(models.Model):
     gender = models.CharField(max_length = 20, blank=True, null=True)
     record_label = models.CharField(max_length=255, blank=True, null=True)
     image = models.FileField()
+
+    def __str__(self):
+        return f"{self.first_name.title()} " \
+               f"{self.last_name.title()} "  \
+               f"- {self.user.email}" 
+       
+
 
 
 # @receiver(post_save, sender=User)
