@@ -12,6 +12,10 @@ class AlbumSerializer(serializers.ModelSerializer):
             'title', 'artist', 'audio_file',
             'genre', 'uploaded_at', 'year',
             'duration', 'cover_image',)
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }
 
 class SongSeriailizer(serializers.ModelSerializer):
 

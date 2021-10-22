@@ -16,7 +16,6 @@ from music_streamer.utils import unique_slug_generator
 class User(AbstractBaseUser, PermissionsMixin):
     artist_name = models.CharField(
         max_length=255, 
-        default='artist name', 
         unique=True
         )
     slug = models.SlugField(max_length=250, null=True, blank=True)
