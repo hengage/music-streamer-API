@@ -1,5 +1,6 @@
+from django.db.models import fields
 from rest_framework import serializers
-from .models import User
+from .models import User, Profile
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -17,3 +18,12 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    model = Profile
+    fields = (
+        'first_name', 'last_name',
+        'country', 'gender',
+        'record_label', 'image', 
+    )
