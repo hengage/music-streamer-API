@@ -1,7 +1,11 @@
 from django.contrib.auth.models import BaseUserManager
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, is_staff=False, is_active=True, is_admin=False, **extra_fields):
+    def create_user(
+        self, email, password=None, 
+        is_staff=False, is_active=True, 
+        is_admin=False, **extra_fields
+    ):
         if not email:
             raise ValueError('users must have a email number')
         if not password:
@@ -34,7 +38,5 @@ class UserManager(BaseUserManager):
             password=password,
             is_staff=True,
             is_admin=True,
-
-
         )
         return user

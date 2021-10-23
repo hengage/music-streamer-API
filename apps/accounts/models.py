@@ -2,35 +2,51 @@
 This model contains database design for all users and song artists
 """
 
-
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
-from .manager import *
+from django.db.models.signals import pre_save, post_save
+from django.contrib.auth.models import PermissionsMixin
+from django.dispatch import receiver
 
+
+from .manager import UserManager
+from music_streamer.utils import unique_slug_generator
 
 ###################### user model
-class User(AbstractBaseUser):
-    fullname        = models.CharField(max_length = 390, blank = True, null = True)
-    email           = models.CharField(max_length = 300, unique=True)
-    
-    active          = models.BooleanField(default=True)
-    staff           = models.BooleanField(default=False)
-    admin           = models.BooleanField(default=False)
+class User(AbstractBaseUser, PermissionsMixin):
+    artist_name = models.CharField(
+        max_length=255, 
+        unique=True
+        )
+    slug = models.SlugField(max_length=250, null=True, blank=True)
+    email = models.EmailField(max_length=300, unique=True)
+    active = models.BooleanField(default=True)
+    staff = models.BooleanField(default=False)
+    admin = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now_add=True)
+    last_login = models.DateTimeField(auto_now_add=True)
+
+    # username = None
 
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
 
     objects = UserManager()
 
-    def __str__(self):
-        return str(self.email)
+    class Meta:
+        # ordering = ('email',)
+        verbose_name = ('user')
+        verbose_name_plural = ('users')
 
-    def get_full_name(self):
-        return self.fullname
+    def __str__(self):
+        return f"{self.artist_name} - "\
+                f"{self.email}"
+
+    def get_artist_name(self):
+        return self.artist_name
 
     def get_short_name(self):
-        return self.fullname
+        return self.artist_name
 
     def has_perm(self, perm, obj=None):
         return True
@@ -53,12 +69,37 @@ class User(AbstractBaseUser):
 
 
 
-class Profile(models.Model):
-    email               = models.ForeignKey(User, on_delete=models.CASCADE, related_name="userprofile")
-    country             = models.CharField(max_length=500, blank = True, null = True)
-    gender              = models.CharField(max_length = 20, blank = True, null = True)
-    artist_name         = models.CharField(max_length=255, blank = True, null = True)
-    record_label        = models.CharField(max_length=255, blank = True, null = True)
-    image               = models.FileField( upload_to="artist/")
 
+def rl_pre_save_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator(instance)
+
+
+pre_save.connect(rl_pre_save_receiver, sender=User)
+
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(
+        User, 
+        on_delete=models.CASCADE,
+         related_name="profile", 
+         default=1
+         )
+    first_name = models.CharField(max_length=255, blank=True, null=True)
+    last_name = models.CharField(max_length=255, blank=True, null=True)
+    country = models.CharField(max_length=500, blank=True, null=True)
+    gender = models.CharField(max_length = 20, blank=True, null=True)
+    record_label = models.CharField(max_length=255, blank=True, null=True)
+    image = models.FileField()
+
+    def __str__(self):
+        if self.first_name or self.last_name:
+            user =  f"{self.first_name.title()} " \
+                f"{self.last_name.title()} "  \
+                f"- {self.user.email}" 
+        else:
+            user = f"- {self.user.email}"
+        return user
+       
 
