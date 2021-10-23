@@ -1,11 +1,23 @@
 # Music Streamer application
 
+This is a collaborative project, meant to model a real time music streaming application using the Django Rest Framework. 
+
+#PS: This project is still ongoing and yet to be completed
+
+## How the project is structured
+We placed the various apps in a dedicated app folder for easy workflow.
+One app for songs and albums, another one for reviews of songs and albums, and the third one 
+for user accounts. 
+
+The database used is Amazon's AWS S3 for media storage and the default sqlite for everything else.
+
 ## Setup
 
 The first thing to do is to clone the repository:
 
 ```sh
-$ git clone https://github.com/gocardless/sample-legacy-django-app.git
+$ git clone https://github.com/hengage/music-streamer-API.git
+
 $ cd music-streamer
 ```
 
@@ -34,7 +46,7 @@ Once `pip` has finished downloading the dependencies:
 
 (env)$ python manage.py runserver
 ```
-And navigate to `http://127.0.0.1:8000/gocardless/`.
+And navigate to `http://127.0.0.1:8000/api/`.
 
 
 ## Tests
