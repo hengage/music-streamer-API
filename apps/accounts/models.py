@@ -94,8 +94,12 @@ class Profile(models.Model):
     image = models.FileField()
 
     def __str__(self):
-        return f"{self.first_name.title()} " \
-               f"{self.last_name.title()} "  \
-               f"- {self.user.email}" 
+        if self.first_name or self.last_name:
+            user =  f"{self.first_name.title()} " \
+                f"{self.last_name.title()} "  \
+                f"- {self.user.email}" 
+        else:
+            user = f"- {self.user.email}"
+        return user
        
 
