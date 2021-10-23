@@ -96,8 +96,8 @@ class Profile(models.Model):
     def __str__(self):
         if self.first_name or self.last_name:
             user =  f"{self.first_name.title()} " \
-                f"{self.last_name.title()} "  \
-                f"- {self.user.email}" 
+                    f"{self.last_name.title()} "  \
+                    f"- {self.user.email}" 
         else:
             user = f"- {self.user.email}"
         return user
